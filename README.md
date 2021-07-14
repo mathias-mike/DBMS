@@ -25,4 +25,17 @@ _Relational theory gives a process for denormalized data to become normalized (?
 * **Goal #3**: No repeating Columns
 * **Goal #4**: Uniquely identify a row
 
-  ***Candidate keys:*** *This is a set of columns that can be pointed to and can uniquely identify a row in a dataset. Can be one (e.g the primary key) or more column*
+  ***Candidate keys:*** *This is a set of columns that can be pointed to and can uniquely identify a row in a dataset. Can be one or more column and each set can form our __primary key__*
+
+#### Second Normal Form
+* **Goal #1**: Bring to *First Normal Form*
+* **Goal #2**: NO Partial Dependency
+
+ ***Dependencies:*** *This are basically relationship between two or more attributes (or columns) in a table. E.g, if we have a table of **item_no**, **varient_code**, **item_name**, **varient_name** and **item_count** and we take the candidate key (**item_no**, **varient_code**) as our **primary key**, then we can have the following dependencies;*
+ * item_name: depends on...
+    * item_no (Has no dependency with varient_code coz the same item can have multiple varients (Blue, Black, White vareints) hence the varient_code tells nothing about the item)
+ * varient_name: depends on...
+    * varient_code (Does not depend on item_no for same reason, same varient of different item)
+ * item_count: depends on...
+    * item no, and
+    * varient_code (Depends on both because the item count gives the count of the varient of each item)
