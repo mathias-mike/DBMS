@@ -24,3 +24,5 @@ _Relational theory gives a process for denormalized data to become normalized (?
 * **Goal #2**: Single value in a cell
 * **Goal #3**: No repeating Columns
 * **Goal #4**: Uniquely identify a row
+
+  ***Candidate keys:*** *This is a set of columns that can be pointed to and can uniquely identify a row in a dataset. Can be one (e.g the primary key) or more column*
