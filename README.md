@@ -1,10 +1,10 @@
 # Welcome to Database Management System
 
 ### Recap
-SQL bassically has 3 language types
-* Data Query language - DQL
-* Data Definition language - DDL
-* Data Management language - DML
+The SQL syntax bassically has 3 parts
+* Data Query language (DQL)
+* Data Definition language (DDL)
+* Data Manipulation language (DML)
 
 *DQL involved querying a database for certain information and this was when we do things like **SELECT**, __JOIN__, **LIMIT** etc.*
 
