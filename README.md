@@ -53,4 +53,11 @@ _Relational theory gives a process for denormalized data to become normalized (?
 
   ***Transitive dependency:*** *when a column that isn't part of the primary key depends on the primary key, but through another non-key column. For example, a table of movie reviews would have a surrogate id column as its PK, and a __movie_id__ column to refer to the movie which is being reviewed. If the table also contains a __movie_name__ column, then that __movie_name__ is transitively dependent on the PK, because it depends on it through __movie_id__.*
 
-  To eliminate transitive dependencies, we'll use a strategy similar to that of eliminating partial dependencies: remove the concerned columns, and, if a table linking those columns to the one they depend on doesn't exist, create it. Keeping with the movie reviews example above, this would mean creating a table for movies, with an __id__ and a __movie_name__, and only keeping the __movie_id__ column in the reviews table.
+  *To eliminate transitive dependencies, we'll use a strategy similar to that of eliminating partial dependencies: remove the concerned columns, and, if a table linking those columns to the one they depend on doesn't exist, create it. Keeping with the movie reviews example above, this would mean creating a table for movies, with an __id__ and a __movie_name__, and only keeping the __movie_id__ column in the reviews table.*
+
+Sometimes, following all the goal laid out rules for 1NF, 2NF and 3NF to get a denomalized dataset to a normalized one can get a little confusing and so a **pragmatic approach** might be necessitated.
+
+#### The pragmatic approach to resolving a lack of normal forms:
+* Identify entities in the denormalized or partially normalized table
+* Create new tables for each entity
+* Go back to the original table and use it to relate the ids to each other
