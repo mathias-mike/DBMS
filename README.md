@@ -61,3 +61,15 @@ Sometimes, following all the goal laid out rules for 1NF, 2NF and 3NF to get a d
 * Identify entities in the denormalized or partially normalized table
 * Create new tables for each entity
 * Go back to the original table and use it to relate the ids to each other
+
+#### Edge cases when normalizing databases
+Sometimes, over-normalization can lead to absurd situations. One hint of this is if you find yourself having to do a ridiculous amount of ***JOINs*** in order to reconstruct a data-set, especially when the data you're joining rarely changes.
+
+A great example of this is address data, where it's most often going to be OK to keep transitive dependencies for the benefit of having a customer's address all together in the same table: if one part of the address changes, it's likely that all of the address will change.
+
+At the end of the day, each situation is different and you'll have to use your best judgment when determining where to normalize, in order to avoid repetitions and anomalies.
+
+### Some relationship types:
+* **One-One Relationship:** When one entity "has one" of another entity, and that second entity "belongs to" only the first. For example, entity "user" and "home address" have a one-one relationship
+* **One-Many Relationship:** When one entity "has many" of another entity, and that second entity "belongs to" only the first. For example, entity "user" and "email address" have a one-many relationship, because a user can have many email addresses, but each email address belongs to only one user
+* **Many-Many Relationship:** When two entities are related in such a way where many links can exist on both sides. For example, entities "books" and "categories" have a many-many relationship, because a book can have multiple categories, and a category can belong to multiple books
