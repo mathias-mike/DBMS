@@ -43,3 +43,14 @@ _Relational theory gives a process for denormalized data to become normalized (?
     * **varient_code** (Depends on both because the quantity gives the count of the varient of each item)
 
   ***Partial dependency:*** *a column that isn't part of the **primary key**, and that depends only on part of the primary key. For example, if the primary key (PK) is (**item_no**, **varient_code**), then the column **item_name** would be a partial dependency on the PK because it only depends on the **item_no**. Hence  **item_name** and **varient_name** have a **partial dependency** on our primary key (They depend on just a part of it and not the full key set) unlike **quantity** that depends on the full primary key.*
+
+  ##### Surrogate Keys
+  Sometimes, the data already existing in a table might not be enough to provide a sensible PK. In these cases, it would make sense to create an extra column that would be completely unrelated to the data, and use that to uniquely identify rows. Such a PK would be called a "surrogate" key. Just like a surrogate mother, it doesn't have any natural relationship with the rest of the columns in the table. Its only purpose is to allow targeting a specific row.
+
+#### Third Normal Form - 3NF
+* **Goal #1**: Bring to _Second Normal Form_
+* **Goal #2**: NO Transitive dependencies
+
+  ***Transitive dependency:*** *when a column that isn't part of the primary key depends on the primary key, but through another non-key column. For example, a table of movie reviews would have a surrogate id column as its PK, and a __movie_id__ column to refer to the movie which is being reviewed. If the table also contains a __movie_name__ column, then that __movie_name__ is transitively dependent on the PK, because it depends on it through __movie_id__.*
+
+  To eliminate transitive dependencies, we'll use a strategy similar to that of eliminating partial dependencies: remove the concerned columns, and, if a table linking those columns to the one they depend on doesn't exist, create it. Keeping with the movie reviews example above, this would mean creating a table for movies, with an __id__ and a __movie_name__, and only keeping the __movie_id__ column in the reviews table.
