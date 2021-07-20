@@ -97,6 +97,7 @@ ALTER TABLE "registrations" ALTER COLUMN "course_id" SET DATA TYPE INTEGER;
 -- DROP TABLE will completely remove a table's structure and all associated data from the database, and is a destructive operation. 
 -- Unless you have a backup, there's no way to recover the lost data!
 DROP TABLE "table_name";
+DROP TABLE "user_data", "states";
 
 -- TRUNCATE TABLE keeps the table structure intact, but removes all the data in the table. If you add the optional RESTART IDENTITY to the command, 
 -- a SERIAL column's sequence will have its next value reset to 1.

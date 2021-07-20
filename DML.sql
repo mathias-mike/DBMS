@@ -155,3 +155,61 @@ ALTER TABLE "people" DROP COLUMN "born_ago";
 
 -- A VERY IMPORTANT FUNCTION TO KNOW IS THE (PG_TYPEOF() which tells us the type of a value returned)
 -- Look into https://www.postgresql.org/docs/9.1/functions-datetime.html to get better understanding of how to work with date and time.
+
+
+-- TRANSACTIONS 
+-- Postgres and other relational databases provide transactional guarantees that can be remembered under the acronym ACID.
+-- * Atomicity: The database guarantees that a transaction will either register all the commands in a transaction, or none of them.
+-- * Consistency: The database guarantees that a successful transaction will leave the data in a consistent state, one that obeys all 
+--   the rules that you've setup. We've seen simple rules like limiting the number of characters in a VARCHAR column, and we'll see 
+--   many more in the next lesson
+-- * Isolation: The database guarantees that concurrent transactions don't "see each other" until they are committed. Committing a
+--   transaction is a command that tells the database to execute all the commands we passed to it since we started that transaction.
+-- * Durability: The database guarantees that once it accepts a transaction and returns a success, the changes introduced by the transaction 
+--   will be permanently stored on disk, even if the database crashes right after the success response.
+
+
+-- EXERCISE - Data Manipulation
+-- Creating table for this exercise
+CREATE TABLE "user_data" (
+    "name" VARCHAR,
+    "state" CHAR(2)
+);
+INSERT INTO "user_data" VALUES
+    ('Winter Chambers', 'MO'), ('Fredericka Pugh', 'VA'), ('Phoebe Thomas', 'CA'), ('Maxine Hood', 'UT'), ('Meredith Vincent', 'ID'),
+    ('Katell Booker', 'KY'), ('Hannah Nixon', 'NE'), ('Maisie Alexander', 'UT'), ('Ebony Schroeder', 'NE'), ('Maite Daniels', 'UT'),
+    ('Michael Mathias', 'AB'), ('Trust Machebe', 'GM'), ('Summers Sams', 'MO'), ('Charlse Baldwick', 'NY'), ('Simpsons Thomas', 'CA'),
+    ('Samuel Hood', 'NY'), ('Meredith Agatha', 'NY'), ('Joshue Booker', 'CA'), ('Minima Nixon', 'NE'), ('Saul Paul', 'UT'), 
+    ('Ebony Schinesdflde', 'NY'), ('Maien Sdke', 'NY'), ('Mathais Samaa', 'SA'), ('Obi Nwchas', 'CA');
+
+-- We are asked to turn off auto commit 
+-- \set AUTOCOMMIT off
+START TRANSACTION/BEGIN;
+
+-- Due to some obscure privacy regulations, all users from California and New York must be removed from the data set
+SELECT * FROM "user_data" WHERE "state" IN ('NY', 'CA'); -- Trying to know what data I am about to delete
+DELETE FROM "user_data" WHERE "state" IN ('NY', 'CA');
+
+-- For the remaining users, we want to split up the name column into two new columns: first_name and last_name.
+ALTER TABLE "user_data" ADD COLUMN "first_name" VARCHAR;
+ALTER TABLE "user_data" ADD COLUMN "last_name" VARCHAR;
+SELECT SPLIT_PART("name", ' ', 1) FROM "user_data"; -- Trying to know what the split_part() function actually does... not to make a mistake
+UPDATE "user_data" SET 
+    "first_name" = SPLIT_PART("name", ' ', 1),
+    "last_name" = SPLIT_PART("name", ' ', 2);
+ALTER TABLE "user_data" DROP COLUMN "name";
+
+-- Finally, we want to simplify the data by changing the state column to a state_id column
+CREATE TABLE "states" (
+    "id" SERIAL, -- Should use SMALLSERIAL instead...
+    "state" CHAR(2)
+);
+INSERT INTO "states" ("state") SELECT DISTINCT "state" FROM "user_data"; 
+ALTER TABLE "user_data" ADD COLUMN "state_id" INTEGER;
+UPDATE "user_data" SET "state_id" = (SELECT "states"."id" FROM "states" WHERE "user_data"."state" = "states"."state");
+ALTER TABLE "user_data" DROP COLUMN "state";
+
+ALTER TABLE "states" ALTER COLUMN "id" SET DATA TYPE SMALLINT;
+ALTER TABLE "user_data" ALTER COLUMN "state_id" SET DATA TYPE SMALLINT;
+
+COMMIT/END;
