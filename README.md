@@ -73,3 +73,14 @@ At the end of the day, each situation is different and you'll have to use your b
 * **One-One Relationship:** When one entity "has one" of another entity, and that second entity "belongs to" only the first. For example, entity "user" and "home address" have a one-one relationship
 * **One-Many Relationship:** When one entity "has many" of another entity, and that second entity "belongs to" only the first. For example, entity "user" and "email address" have a one-many relationship, because a user can have many email addresses, but each email address belongs to only one user
 * **Many-Many Relationship:** When two entities are related in such a way where many links can exist on both sides. For example, entities "books" and "categories" have a many-many relationship, because a book can have multiple categories, and a category can belong to multiple books
+
+---
+
+## NoSQL
+"NoSQL" is a term that was coined to describe those databases that don't use the relational model.
+
+One of the key points we discussed about relational databases is their ability to provide guarantees about the data they store. Traditionally, in order to be able to do that, a relational database server had to run in the confines of a single machine. This meant that as the needs of the business grew, so did that single server.
+
+It turns out that scaling the resources on a server isn't linear: doubling RAM, CPU, or disk space will end up costing more than double. As usage of the Internet went up, so did the amounts of data that had to be stored, as well as the volume of queries required on that data.
+
+NoSQL — or non-relational — databases were born out of this growing need for data and query throughput.
